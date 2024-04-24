@@ -21,10 +21,10 @@ const createUser = async (req, res = response) => {
     return res.status(400).json({ errores: errors.array() });
   }
   //extraer email y password
-  const { email, password} = req.body;
+  const { email, password } = req.body;
   try {
     // revisar que el usuario registrado sea unico
-    let user = await User.findOne({email });
+    let user = await User.findOne({ email });
 
     if (user) {
       return res.status(400).json({ message: "El usuario ya existe" });
@@ -36,30 +36,16 @@ const createUser = async (req, res = response) => {
     user.password = await bcryptjs.hash(password, salt);
     // guardar el nuevo usuario
     await user.save();
-    //crear y firmar el jwt
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    };
+    
+    //crear y firmar el jwt 
+    const token = jwt.sign({ id: user._id, email: user.email }, 'secret', {
+      expiresIn: "1h",
+    });
 
-    // firmar el jwt
-    jwt.sign(
-      payload,
-      "secret",
-      {
-        expiresIn: 3600, //1 hora y cierra sesion
-      },
-      (error, token) => {
-        if (error) throw error;
-        // mensaje de confirmación
-        res.json({ token });
-      }
-    );
+    res.json({ token });
   } catch (error) {
     console.log(error);
     res.status(400).send("Hubo un error");
   }
 };
-
 module.exports = { userGet, createUser };

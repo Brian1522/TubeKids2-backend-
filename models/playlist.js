@@ -1,29 +1,36 @@
 const { Schema, model } = require("mongoose");
 
+// Define the schema for individual videos
+const VideoSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    url: {
+        type: String,
+        required: true,
+    },
+    status: {
+        type: Boolean,
+        default: true,
+    }
+});
+
+// Define el shema de playlist
 const PlaylistSchema = Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: "User",
-        required: [true, "User is required"],
+        required: true,
     },
     
     name: {
         type: String,
-        required: [true, "name is required"],
+        required: true
     },
-    url: {
-        type: String,
-        required: [true, "URl is required"],
-    },
-    status: {
-        type: Boolean,
-        default: true
-    }
+    videos: [VideoSchema],
+       
 
 });
-PlaylistSchema.methods.toJSON = function () {
-    const { __v, _id, ...playlist } = this.toObject();
-    playlist.uid = _id;
-    return playlist;
-}
+
 module.exports = model("Playlist", PlaylistSchema);
