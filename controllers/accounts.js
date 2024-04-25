@@ -1,4 +1,3 @@
-
 const Account = require("../models/accounts");
 
 const cuentasGet = async (req, res) => {

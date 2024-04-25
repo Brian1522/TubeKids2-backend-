@@ -17,7 +17,7 @@ const VideoSchema = new Schema({
 });
 
 // Define el shema de playlist
-const PlaylistSchema = Schema({
+const PlaylistSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: "User",

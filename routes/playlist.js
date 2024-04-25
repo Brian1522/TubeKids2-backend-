@@ -21,17 +21,18 @@ router.post("/", [
     check("userId", "Userid is required").not().isEmpty().isMongoId(), //valida que venga los campos
     validateFields,
     verifyAuth
-
 ], playlistPost);
 
 router.delete("/:id", [
     check("id", "Id is invalid").isMongoId().custom(isRegisteredPlaylist),
-    validateFields
+    validateFields,
+    verifyAuth
 ], playlistDelete);
 
 router.put("/:id", [
     check("id", "Id is invalid").isMongoId().custom(isNotRegisteredplaylist),
-    validateFields
+    validateFields,
+    verifyAuth
 ], playlistPut
 );
 
