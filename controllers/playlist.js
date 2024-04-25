@@ -11,7 +11,7 @@ const playlistGet = async (req, res) => {
     const user_name = user ? user.name : ''; // Si el usuario existe, obtiene su nombre, de lo contrario, establece una cadena vacía
 
     // Modifica cada objeto de playlist para incluir user_id y user_name, pero sin incluir el campo user
-    const modifiedPlaylists = playlists.map(playlist => ({
+    const modifiedPlaylists = playlist.map(playlist => ({
         _id: playlist._id,
         name: playlist.name,
         videos: playlist.videos,
@@ -20,7 +20,7 @@ const playlistGet = async (req, res) => {
         user_name // El nombre de usuario obtenido anteriormente
     }));
 
-    const totalplaylist = playlists.length; // Total de playlists
+    const totalplaylist = playlist.length; // Total de playlists
 
     res.json({
         playlist: modifiedPlaylists,
